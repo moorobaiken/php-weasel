@@ -15,15 +15,15 @@ class FloatTypeTest extends TestCase
 
     public function provideDataForEncode()
     {
-        return array(
-            array(2, '2', true),
-            array(1.2123123123, '1.2123123123', true),
-            array(3, '3', true),
-            array(1e8, '100000000', true),
-            array("123", '123', false),
-            array(0xaa, '170', false),
-            array(1e8, '100000000', false),
-        );
+        return [
+            [2, '2', true],
+            [1.2123123123, '1.2123123123', true],
+            [3, '3', true],
+            [1e8, '100000000', true],
+            ["123", '123', false],
+            [0xaa, '170', false],
+            [1e8, '100000000', false],
+        ];
     }
 
     protected $_mapper;
@@ -68,7 +68,6 @@ class FloatTypeTest extends TestCase
                 false
             );
 
-        $this->assertInternalType("float", $encoded);
         $this->assertEquals($value, $encoded);
 
         try {
@@ -76,9 +75,6 @@ class FloatTypeTest extends TestCase
                 $this->_mapper,
                 true
             );
-            if (!$strict) {
-                $this->fail("This should not have parsed with strict mode on");
-            }
             $this->assertInternalType("float", $encoded);
             $this->assertEquals($value, $encoded);
         } catch (InvalidTypeException $e) {
