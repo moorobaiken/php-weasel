@@ -17,7 +17,7 @@ class AnnotationConfiguratorTest extends TestCase
     public function testBuiltIns()
     {
 
-        $mock = $this->getMock('\Weasel\Annotation\AnnotationReaderFactory', array(), array(), '', false);
+        $mock = $this->createMock('\Weasel\Annotation\AnnotationReader');
         $mock->expects($this->never())->method('getReaderForClass');
         $instance = new AnnotationConfigurator(null, null, $mock);
 
@@ -37,13 +37,7 @@ class AnnotationConfiguratorTest extends TestCase
         $annotation = new Config\Annotations\Annotation(array('class'), 6);
         $classAnnotations = array('\Weasel\Annotation\Config\Annotations\Annotation' => array($annotation));
 
-        $mock =
-            $this->getMock('\Weasel\Annotation\AnnotationReader',
-                array('getClassAnnotations',
-                    'getMethodAnnotations',
-                    'getPropertyAnnotations'
-                ), array(), '', false
-            );
+        $mock = $this->createMock('\Weasel\Annotation\AnnotationReader');
         $mock->expects($this->any())->method('getClassAnnotations')->will($this->returnValue($classAnnotations));
         $mock->expects($this->any())->method('getMethodAnnotations')
             ->will($this->returnValueMap(array(
@@ -98,14 +92,8 @@ class AnnotationConfiguratorTest extends TestCase
         $constructorAnnotations =
             array('\Weasel\Annotation\Config\Annotations\AnnotationCreator' => array($constructorAnnotation));
 
+        $mock = $this->createMock('\Weasel\Annotation\AnnotationReader');
 
-        $mock =
-            $this->getMock('\Weasel\Annotation\AnnotationReader',
-                array('getClassAnnotations',
-                    'getMethodAnnotations',
-                    'getPropertyAnnotations'
-                ), array(), '', false
-            );
         $mock->expects($this->any())->method('getClassAnnotations')->will($this->returnValue($classAnnotations));
         $mock->expects($this->any())->method('getMethodAnnotations')
             ->will($this->returnValueMap(array(
@@ -158,13 +146,8 @@ class AnnotationConfiguratorTest extends TestCase
             array('\Weasel\Annotation\Config\Annotations\AnnotationCreator' => array($constructorAnnotation));
 
 
-        $mock =
-            $this->getMock('\Weasel\Annotation\AnnotationReader',
-                array('getClassAnnotations',
-                    'getMethodAnnotations',
-                    'getPropertyAnnotations'
-                ), array(), '', false
-            );
+        $mock = $this->createMock('\Weasel\Annotation\AnnotationReader');
+
         $mock->expects($this->any())->method('getClassAnnotations')->will($this->returnValue($classAnnotations));
         $mock->expects($this->any())->method('getMethodAnnotations')
             ->will($this->returnValueMap(array(
@@ -206,13 +189,8 @@ class AnnotationConfiguratorTest extends TestCase
         $classAnnotations = array('\Weasel\Annotation\Config\Annotations\Annotation' => array($annotation));
 
 
-        $mock =
-            $this->getMock('\Weasel\Annotation\AnnotationReader',
-                array('getClassAnnotations',
-                    'getMethodAnnotations',
-                    'getPropertyAnnotations'
-                ), array(), '', false
-            );
+        $mock = $this->createMock('\Weasel\Annotation\AnnotationReader');
+
         $mock->expects($this->any())->method('getClassAnnotations')->will($this->returnValue($classAnnotations));
         $mock->expects($this->any())->method('getMethodAnnotations')
             ->will($this->returnValue(array()));
@@ -247,14 +225,8 @@ class AnnotationConfiguratorTest extends TestCase
         $annotation = new Config\Annotations\Annotation(array('class'), 6);
         $classAnnotations = array('\Weasel\Annotation\Config\Annotations\Annotation' => array($annotation));
 
+        $mock = $this->createMock('\Weasel\Annotation\AnnotationReader');
 
-        $mock =
-            $this->getMock('\Weasel\Annotation\AnnotationReader',
-                array('getClassAnnotations',
-                    'getMethodAnnotations',
-                    'getPropertyAnnotations'
-                ), array(), '', false
-            );
         $mock->expects($this->any())->method('getClassAnnotations')->will($this->returnValue($classAnnotations));
         $mock->expects($this->any())->method('getMethodAnnotations')
             ->will($this->returnValue(array()));
@@ -298,13 +270,8 @@ class AnnotationConfiguratorTest extends TestCase
         $classAnnotations = array('\Weasel\Annotation\Config\Annotations\Annotation' => array($annotation));
 
 
-        $mock =
-            $this->getMock('\Weasel\Annotation\AnnotationReader',
-                array('getClassAnnotations',
-                    'getMethodAnnotations',
-                    'getPropertyAnnotations'
-                ), array(), '', false
-            );
+        $mock = $this->createMock('\Weasel\Annotation\AnnotationReader');
+
         $mock->expects($this->any())->method('getClassAnnotations')->will($this->returnValue($classAnnotations));
         $mock->expects($this->any())->method('getMethodAnnotations')
             ->will($this->returnValue(array()));
@@ -345,32 +312,25 @@ class AnnotationConfiguratorTest extends TestCase
      */
     public function testNonStaticEnum()
     {
+        $annotation = new Config\Annotations\Annotation(['class'], 6);
+        $classAnnotations = ['\Weasel\Annotation\Config\Annotations\Annotation' => [$annotation]];
 
-        $annotation = new Config\Annotations\Annotation(array('class'), 6);
-        $classAnnotations = array('\Weasel\Annotation\Config\Annotations\Annotation' => array($annotation));
+        $mock = $this->createMock('\Weasel\Annotation\AnnotationReader');
 
-
-        $mock =
-            $this->getMock('\Weasel\Annotation\AnnotationReader',
-                array('getClassAnnotations',
-                    'getMethodAnnotations',
-                    'getPropertyAnnotations'
-                ), array(), '', false
-            );
-        $mock->expects($this->any())->method('getClassAnnotations')->will($this->returnValue($classAnnotations));
+        $mock->expects($this->any())->method('getClassAnnotations')
+            ->will($this->returnValue($classAnnotations));
         $mock->expects($this->any())->method('getMethodAnnotations')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
         $mock->expects($this->any())->method('getPropertyAnnotations')
-            ->will($this->returnValueMap(array(
-                        array("a",
-                            array('\Weasel\Annotation\Config\Annotations\Enum' => array(
+            ->will($this->returnValueMap([
+                        ["a", ['\Weasel\Annotation\Config\Annotations\Enum' => [
                                 new Config\Annotations\Enum(null)
-                            )
-                            )
-                        ),
-                    )
-                )
+                            ]
+                        ]
+                    ],
+                ])
             );
+
         $instance = new AnnotationConfigurator(null, null, new MockAnnotationReaderFactory($mock));
 
         $instance->get('\Weasel\Annotation\BoringAnnotation');
@@ -387,14 +347,7 @@ class AnnotationConfiguratorTest extends TestCase
         $annotation = new Config\Annotations\Annotation(array('class'), 6);
         $classAnnotations = array('\Weasel\Annotation\Config\Annotations\Annotation' => array($annotation));
 
-
-        $mock =
-            $this->getMock('\Weasel\Annotation\AnnotationReader',
-                array('getClassAnnotations',
-                    'getMethodAnnotations',
-                    'getPropertyAnnotations'
-                ), array(), '', false
-            );
+        $mock = $this->createMock('\Weasel\Annotation\AnnotationReader');
         $mock->expects($this->any())->method('getClassAnnotations')->will($this->returnValue($classAnnotations));
         $mock->expects($this->any())->method('getMethodAnnotations')
             ->will($this->returnValue(array()));
@@ -421,14 +374,8 @@ class AnnotationConfiguratorTest extends TestCase
      */
     public function testThatsNoAnnotation()
     {
+        $mock = $this->createMock('\Weasel\Annotation\AnnotationReader');
 
-        $mock =
-            $this->getMock('\Weasel\Annotation\AnnotationReader',
-                array('getClassAnnotations',
-                    'getMethodAnnotations',
-                    'getPropertyAnnotations'
-                ), array(), '', false
-            );
         $mock->expects($this->any())->method('getClassAnnotations')->will($this->returnValue(array()));
         $mock->expects($this->any())->method('getMethodAnnotations')
             ->will($this->returnValueMap(array(
@@ -567,7 +514,6 @@ class AnnotationConfiguratorTest extends TestCase
      */
     public function testTooFewCreatorArgs()
     {
-
         $annotation = new Config\Annotations\Annotation(array('class'), 6);
         $classAnnotations = array('\Weasel\Annotation\Config\Annotations\Annotation' => array($annotation));
 
