@@ -6,7 +6,9 @@
  */
 namespace Weasel\Annotation;
 
-class AnnotationConfiguratorTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class AnnotationConfiguratorTest extends TestCase
 {
 
     /**
