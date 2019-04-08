@@ -360,18 +360,8 @@ class AnnotationConfiguratorTest extends TestCase
      */
     public function testNonArrayEnum()
     {
-        $this->markTestSkipped();
         $annotation = new Config\Annotations\Annotation(['class'], 6);
         $classAnnotations = ['\Weasel\Annotation\Config\Annotations\Annotation' => [$annotation]];
-
-
-        $mock =
-            $this->getMock('\Weasel\Annotation\AnnotationReader',
-                ['getClassAnnotations',
-                    'getMethodAnnotations',
-                    'getPropertyAnnotations'
-                ], [], '', false
-            );
 
         $mock = $this->getMockBuilder('\Weasel\Annotation\AnnotationReader')
             ->setMethods(['getClassAnnotations', 'getMethodAnnotations', 'getPropertyAnnotations'])
