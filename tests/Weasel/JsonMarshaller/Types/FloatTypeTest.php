@@ -21,8 +21,8 @@ class FloatTypeTest extends TestCase
             array(3, '3', true),
             array(1e8, '100000000', true),
             array("123", '123', false),
-            array("0xaa", '170', false),
-            array("1e8", '100000000', false),
+            array(0xaa, '170', false),
+            array(1e8, '100000000', false),
         );
     }
 
