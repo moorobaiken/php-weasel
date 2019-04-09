@@ -16,26 +16,14 @@ class DocblockParserTest extends TestCase
 
     public function provideSimpleClassAnnotation()
     {
-        return array(
-            array('flibble fish',
-                'string'
-            ),
-            array('test "some" quotes',
-                'string'
-            ),
-            array(12356,
-                'integer'
-            ),
-            array(5.23,
-                'float'
-            ),
-            array(true,
-                'boolean'
-            ),
-            array(false,
-                'boolean'
-            ),
-        );
+        return [
+            ['flibble fish', 'string'],
+            ['test "some" quotes', 'string'],
+            [12356, 'integer'],
+            [5.23, 'float'],
+            [true, 'boolean'],
+            [false, 'boolean'],
+        ];
     }
 
     protected function _phpTypeToAnnotationType($type, $value)
@@ -447,7 +435,6 @@ class DocblockParserTest extends TestCase
         $gloop->fromcb = $value;
         $expected[] = $gloop;
 
-        var_dump(['\Weasel\Annotation\Tests\Gloop' => $expected], '---', $parsed);
         $this->assertEquals(['\Weasel\Annotation\Tests\Gloop' => $expected], $parsed);
     }
 

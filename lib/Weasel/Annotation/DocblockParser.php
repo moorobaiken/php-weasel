@@ -332,7 +332,7 @@ class DocblockParser implements LoggerAwareInterface
                 }
                 reset($anonParams);
                 foreach ($expectedParams as $paramConfig) {
-                    $param = [key($anonParams), current($actualParams)];
+                    $param = $this->each($anonParams);
                     $param = ($param === false) ? null : $param['value'];
                     if ($param === null) {
                         if ($paramConfig->getRequired() && $paramConfig->getRequired() === true) {
@@ -386,6 +386,13 @@ class DocblockParser implements LoggerAwareInterface
         return array($class,
             $annotation
         );
+    }
+
+    private function each(&$arr) {
+        $key = key($arr);
+        $result = ($key === null) ? false : [$key, current($arr), 'key' => $key, 'value' => current($arr)];
+        next($arr);
+        return $result;
     }
 
     protected function _collapseAndCheckType($param, $type)
