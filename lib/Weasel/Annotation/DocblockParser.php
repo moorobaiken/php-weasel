@@ -332,7 +332,7 @@ class DocblockParser implements LoggerAwareInterface
                 }
                 reset($anonParams);
                 foreach ($expectedParams as $paramConfig) {
-                    $param = each($anonParams);
+                    $param = [key($anonParams), current($actualParams)];
                     $param = ($param === false) ? null : $param['value'];
                     if ($param === null) {
                         if ($paramConfig->getRequired() && $paramConfig->getRequired() === true) {

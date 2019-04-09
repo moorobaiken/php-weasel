@@ -24,7 +24,6 @@ class InvalidTypeException extends JsonMarshallerException
         } elseif (is_bool($value)) {
             return $typeStr . ($value ? "true" : "false");
         } elseif (is_array($value)) {
-            $pos = current($value);
             $retval = $typeStr . '{';
             $fst = true;
             foreach ($value as $key => $element) {
@@ -35,12 +34,6 @@ class InvalidTypeException extends JsonMarshallerException
                 $fst = false;
             }
             $retval .= '}';
-
-            if ($pos !== false) {
-                for (reset($value); current($value) != $pos && current($value) !== false; each($value)) {
-                    ;
-                }
-            }
 
             return $retval;
         }
