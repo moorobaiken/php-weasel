@@ -403,9 +403,8 @@ class DocblockParserTest extends TestCase
      */
     public function testSimpleClassAnnotationCreator($value, $type)
     {
-
         $mockConfigurator = new MockConfigurator();
-        $annotation = new \Weasel\Annotation\Config\Annotation('\Weasel\Annotation\Tests\Gloop', array('class'));
+        $annotation = new \Weasel\Annotation\Config\Annotation('\Weasel\Annotation\Tests\Gloop', ['class']);
         $annotation->setCreatorMethod('__construct');
         $annotation->addCreatorParam(
             new \Weasel\Annotation\Config\Param('foo', $type, false)
@@ -427,10 +426,10 @@ class DocblockParserTest extends TestCase
               * @Gloop(baz=' . $valueQuoted . ')
               */',
             "class",
-            array('Gloop' => 'Weasel\Annotation\Tests\Gloop')
+            ['Gloop' => 'Weasel\Annotation\Tests\Gloop']
         );
 
-        $expected = array();
+        $expected = [];
 
         $gloop = new Gloop();
         $gloop->fromca = $value;
@@ -448,8 +447,8 @@ class DocblockParserTest extends TestCase
         $gloop->fromcb = $value;
         $expected[] = $gloop;
 
-        $this->assertEquals(array('\Weasel\Annotation\Tests\Gloop' => $expected), $parsed);
-
+        var_dump(['\Weasel\Annotation\Tests\Gloop' => $expected], '---', $parsed);
+        $this->assertEquals(['\Weasel\Annotation\Tests\Gloop' => $expected], $parsed);
     }
 
     /**
